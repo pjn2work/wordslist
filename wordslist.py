@@ -1,5 +1,5 @@
 import re
-from args_parser import argsParser_from_sys_args
+from args_parser import args_parser_from_sys_args
 from tkinter import Tk, Label, Entry, Listbox, Button, END
 
 
@@ -84,7 +84,7 @@ def gui_mode():
 
 
 if __name__ == "__main__":
-    ap = argsParser_from_sys_args()
+    ap = args_parser_from_sys_args()
     if len(ap.get_keys()):
         shell_mode(ap)
     else:

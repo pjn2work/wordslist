@@ -48,17 +48,15 @@ class ArgsParser:
         return self.__argv_dict.keys()
 
     # returns str or list from __argv_dict
-    def get_value(self, key, default_value=[]):
-        if key in self.__argv_dict:
-            return self.__argv_dict[key]
-        return default_value
+    def get_value(self, key, default_value=None):
+        return self.__argv_dict.get(key, default_value)
 
     # returns list of flags
-    def get_flags(self):
+    def get_flags(self) -> list[str]:
         return [key for key in self.__argv_dict if key.startswith("--")]
 
     # returns dict of options
-    def get_options(self):
+    def get_options(self) -> dict[str, list[str]]:
         result = dict()
         for key, value in self.__argv_dict.items():
             if key.startswith("-") and not key.startswith("--"):
@@ -66,28 +64,26 @@ class ArgsParser:
         return result
 
     # returns list of arguments
-    def get_arguments(self, default_value=[]):
-        if "_arguments_" in self.__argv_dict:
-            return self.__argv_dict["_arguments_"]
-        return default_value
+    def get_arguments(self, default_value=None) -> list[str]:
+        return self.__argv_dict.get("_arguments_", default_value)
 
     def __str__(self):
         return str(self.__argv_dict)
 
 
 # returns ArgsParser of sys.argv
-def argsParser_from_sys_args():
+def args_parser_from_sys_args():
     return ArgsParser(sys.argv[1:])
 
 
 # returns ArgsParser from string args
-def argsParser_from_str(args):
+def args_parser_from_str(args):
     return ArgsParser(args.split(" "))
 
 
 # For testing this class
 if __name__ == "__main__":
-    ap = argsParser_from_sys_args()
+    ap = args_parser_from_str("-f sdf -f 11 --g -pe Pedro 1 2 3")
     print(ap.get_dict())
     print("keys", ap.get_keys())
     print("flags", ap.get_flags())
